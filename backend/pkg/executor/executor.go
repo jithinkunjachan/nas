@@ -17,7 +17,8 @@ type Command struct {
 	Ws   *ws.WS
 }
 
-func Exec(b Builder) error {
+func Exec(b Builder) (string, error) {
+	sb := strings.Builder{}
 	e := b.Command()
 	cmd := exec.Command(e.Cmd, e.Args...)
 	cmd.Stdin = strings.NewReader("jesus@1save")
@@ -39,16 +40,18 @@ func Exec(b Builder) error {
 			if e.Ws != nil {
 				e.Ws.BroadcastJSON(ws.Message, line)
 			}
+			sb.WriteString(line)
 		}
 		done <- struct{}{}
 	}()
 	err := cmd.Start()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	<-done
 
-	return cmd.Wait()
+	err = cmd.Wait()
+	return sb.String(), err
 
 }

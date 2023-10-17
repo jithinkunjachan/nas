@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    defaults:
+      run:
+        working-directory: ./frontend  
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -28,7 +31,7 @@ jobs:
       # Checkout the repository code and get packages.
       - name: Checkout flutter_app code
         uses: actions/checkout@v3
-      - run: cd frontend && flutter pub get
+      - run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --split-per-abi --release

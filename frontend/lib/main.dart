@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/bloc/api_bloc.dart';
 import 'package:frontend/bloc/websocket_bloc.dart';
+import 'package:frontend/widgets/button.dart';
 import 'package:frontend/widgets/textArea.dart';
 
 void main() {
@@ -132,79 +134,125 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/status"));
-                  },
-                  child: const Text("status"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/diff"));
-                  },
-                  child: const Text("diff"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/sync"));
-                  },
-                  child: const Text("sync"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/scrub"));
-                  },
-                  child: const Text("scrub"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/list"));
-                  },
-                  child: const Text("list"),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Button(
+                    icon: SvgPicture.asset(
+                      "status.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    label: "Status",
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/status"));
+                    },
+                  ),
+                  Button(
+                    icon: SvgPicture.asset(
+                      "diff.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    label: "Diff",
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/diff"));
+                    },
+                  ),
+                  Button(
+                    icon: SvgPicture.asset(
+                      "sync.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/sync"));
+                    },
+                    label: "Sync",
+                  ),
+                  Button(
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/scrub"));
+                    },
+                    icon: SvgPicture.asset(
+                      "scrub.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    label: "Scrub",
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/dup"));
-                  },
-                  child: const Text("dup"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/smart"));
-                  },
-                  child: const Text("smart"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<ApiBloc>()
-                        .add(SnapRaidSyncEvent("snapraid/check"));
-                  },
-                  child: const Text("check"),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Button(
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/list"));
+                    },
+                    label: "List",
+                    icon: SvgPicture.asset(
+                      "list.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                  ),
+                  Button(
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/dup"));
+                    },
+                    label: "Dup",
+                    icon: SvgPicture.asset(
+                      "dup.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                  ),
+                  Button(
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/smart"));
+                    },
+                    icon: SvgPicture.asset(
+                      "smart.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    label: "Smart",
+                  ),
+                  Button(
+                    onPressed: () {
+                      context
+                          .read<ApiBloc>()
+                          .add(SnapRaidSyncEvent("snapraid/check"));
+                    },
+                    icon: SvgPicture.asset(
+                      "check.svg",
+                      width: 36,
+                      height: 36,
+                    ),
+                    label: "Check",
+                  ),
+                ],
+              ),
             ),
             BlocBuilder<WebsocketBloc, WebsocketApiStartState>(
                 builder: ((context, state) {

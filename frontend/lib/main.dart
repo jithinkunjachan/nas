@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Button(
                     icon: SvgPicture.asset(
-                      "status.svg",
+                      "assets/status.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -154,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Button(
                     icon: SvgPicture.asset(
-                      "diff.svg",
+                      "assets/diff.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Button(
                     icon: SvgPicture.asset(
-                      "sync.svg",
+                      "assets/sync.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           .add(SnapRaidSyncEvent("snapraid/scrub"));
                     },
                     icon: SvgPicture.asset(
-                      "scrub.svg",
+                      "assets/scrub.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     label: "List",
                     icon: SvgPicture.asset(
-                      "list.svg",
+                      "assets/list.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -220,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     label: "Dup",
                     icon: SvgPicture.asset(
-                      "dup.svg",
+                      "assets/dup.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           .add(SnapRaidSyncEvent("snapraid/smart"));
                     },
                     icon: SvgPicture.asset(
-                      "smart.svg",
+                      "assets/smart.svg",
                       width: 36,
                       height: 36,
                     ),
@@ -245,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           .add(SnapRaidSyncEvent("snapraid/check"));
                     },
                     icon: SvgPicture.asset(
-                      "check.svg",
+                      "assets/check.svg",
                       width: 36,
                       height: 36,
                     ),

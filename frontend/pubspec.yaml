@@ -41,7 +41,7 @@ dependencies:
 
 
 assets:
-  - assets
+  - assets/
 
 
 dev_dependencies:

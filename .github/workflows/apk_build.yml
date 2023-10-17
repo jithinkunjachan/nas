@@ -42,7 +42,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk, build/app/outputs/bundle/release/*.aab"
+          artifacts: "frontend/build/app/outputs/flutter-apk/*.apk, frontend/build/app/outputs/bundle/release/*.aab"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0

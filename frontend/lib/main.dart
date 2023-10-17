@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/bloc/api_bloc.dart';
 import 'package:frontend/bloc/websocket_bloc.dart';
 import 'package:frontend/widgets/button.dart';
-import 'package:frontend/widgets/textarea.dart';
+import 'package:frontend/widgets/loglist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,7 +42,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextArea textArea = TextArea();
+  final LogList loglist = LogList();
   @override
   void initState() {
     super.initState();
@@ -254,23 +254,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            BlocBuilder<WebsocketBloc, WebsocketApiStartState>(
-                builder: ((context, state) {
-              return StreamBuilder(
-                  stream: state.channel.stream,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      final json = jsonDecode(snapshot.data);
-                      final msgType = json["MsgType"];
-                      if (msgType == 1) {
-                        textArea.Write(json["Message"]);
-                      } else if (msgType == 0) {
-                        textArea.Clear();
+            Expanded(
+              child: BlocBuilder<WebsocketBloc, WebsocketApiStartState>(
+                  builder: ((context, state) {
+                return StreamBuilder(
+                    stream: state.channel.stream,
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        final json = jsonDecode(snapshot.data);
+                        final msgType = json["MsgType"];
+                        if (msgType == 1) {
+                          loglist.Append(json["Message"]);
+                        } else if (msgType == 0) {
+                          loglist.Clear();
+                        }
                       }
-                    }
-                    return textArea;
-                  }));
-            })),
+                      return loglist;
+                    }));
+              })),
+            ),
           ],
         ),
       ),

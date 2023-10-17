@@ -37,15 +37,12 @@ class _TextArea extends State<TextArea> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      child: Scrollbar(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Text(
-            buffer.toString(),
-            style: const TextStyle(fontSize: 6),
-          ),
+    return Scrollbar(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Text(
+          buffer.toString(),
+          style: const TextStyle(fontSize: 8),
         ),
       ),
     );

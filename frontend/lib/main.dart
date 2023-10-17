@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/bloc/api_bloc.dart';
 import 'package:frontend/bloc/websocket_bloc.dart';
 import 'package:frontend/widgets/button.dart';
-import 'package:frontend/widgets/textArea.dart';
+import 'package:frontend/widgets/textarea.dart';
 
 void main() {
   runApp(const MyApp());

@@ -31,4 +31,5 @@ jobs:
             goos: ${{ matrix.goos }}
             goarch: ${{ matrix.goarch }}
             goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-            project_path: "./backend/cmd/api"
+            project_path: "./backend/cmd/api/sever"
+            binary_name: "server"

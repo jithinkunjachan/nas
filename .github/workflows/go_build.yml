@@ -1,35 +1,21 @@
 name: Build Go
 
-on: 
+on:
     push:
+      # Sequence of patterns matched against refs/tags
       tags:
-      - '*'
-
-permissions:
-    contents: write
-    packages: write
+        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
   
+
 jobs:
-    releases-matrix:
-        name: Release Go Binary
+    build:
+        name: Create Release
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-                goos: [linux, windows, darwin]
-                goarch: ["386", amd64, arm64]
-                exclude:
-                - goarch: "386"
-                  goos: darwin
-                - goarch: arm64
-                  goos: windows
         steps:
-        - uses: actions/checkout@v3
-        - uses: wangyoucao577/go-release-action@v1
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            goos: ${{ matrix.goos }}
-            goarch: ${{ matrix.goarch }}
-            goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-            project_path: "./backend/cmd/api/sever"
-            binary_name: "server"
+        - name: Golang Action
+          uses: cedrickring/golang-action@1.6.0        
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - run: cd backend/cmd/api
+        - run: go build .
+       

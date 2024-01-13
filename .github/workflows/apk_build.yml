@@ -48,10 +48,7 @@ jobs:
         with:
           artifacts: "frontend/build/app/outputs/flutter-apk/*.apk, frontend/build/app/outputs/bundle/release/*.aab"
          
-      
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - run: cd backend/cmd/api
+      - run: cd ../backend/cmd/api
       - run: GOOS=linux GOARCH=amd64 go build -o server-linux-amd64 .
       - run: mv server-linux-amd64 ../../../frontend/build/app/outputs/flutter-apk/
 

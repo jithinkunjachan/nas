@@ -30,7 +30,7 @@ jobs:
 
       # setup go
       - name: Golang Action
-        uses: cedrickring/golang-action@1.6.0   
+        uses: actions/setup-go@v5.0.0 
 
       # Checkout the repository code and get packages.
       - name: Checkout flutter_app code

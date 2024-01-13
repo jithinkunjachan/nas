@@ -47,10 +47,10 @@ jobs:
         uses: ncipollo/release-action@v1.10.0
         with:
           artifacts: "frontend/build/app/outputs/flutter-apk/*.apk, frontend/build/app/outputs/bundle/release/*.aab"
-         
-      - run: cd ../backend/cmd/api
-      - run: GOOS=linux GOARCH=amd64 go build -o server-linux-amd64 .
-      - run: mv server-linux-amd64 ../../../frontend/build/app/outputs/flutter-apk/
+      - run: |   
+         cd ../backend/cmd/api
+         GOOS=linux GOARCH=amd64 go build -o server-linux-amd64 .
+         mv server-linux-amd64 ../../../frontend/build/app/outputs/flutter-apk/
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0

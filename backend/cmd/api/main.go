@@ -1,14 +1,19 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/command"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/executor"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/ws"
 )
+
+var isBusy = false
+var mutex = sync.Mutex{}
 
 func main() {
 	log.Println("starting server")
@@ -19,6 +24,12 @@ func main() {
 	r.GET("/ws", webSckt.Handle)
 
 	r.GET("/lsblk", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		lsblk := &command.Lsblk{
 			Ws: webSckt,
 		}
@@ -26,6 +37,12 @@ func main() {
 	})
 
 	r.GET("/blkid", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		blkid := &command.Blkid{
 			Ws: webSckt,
 		}
@@ -33,6 +50,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/sync", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -41,6 +64,12 @@ func main() {
 		executor.Exec(snpRaid)
 	})
 	r.GET("/snapraid/status", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -50,6 +79,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/diff", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -59,6 +94,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/scrub", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -68,6 +109,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/list", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -77,6 +124,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/dup", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -86,6 +139,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/check", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "snapraid",
@@ -95,6 +154,12 @@ func main() {
 	})
 
 	r.GET("/snapraid/smart", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
 		snpRaid := &command.SnapRaid{
 			Ws:   webSckt,
 			Cmd:  "sudo",
@@ -110,4 +175,14 @@ func main() {
 	})
 
 	r.Run(":8081")
+}
+
+func Busy(b bool) error {
+	if b == isBusy {
+		return errors.New("server is working please wait")
+	}
+	mutex.Lock()
+	isBusy = b
+	mutex.Unlock()
+	return nil
 }

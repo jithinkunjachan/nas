@@ -140,3 +140,9 @@ exclude /lost+found/
 #smartctl parity -d areca,1/1 /dev/sg0
 #smartctl 2-parity -d areca,2/1 /dev/sg0
     `
+
+
+
+## add following to cron
+`crontab -e`
+`@reboot /home/jupiter/api`

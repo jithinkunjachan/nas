@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/command"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/executor"
+	"github.com/jithinkunjachan/nasserver/backend/pkg/render"
 	"github.com/jithinkunjachan/nasserver/backend/pkg/ws"
 )
 
@@ -19,7 +20,16 @@ func main() {
 	log.Println("starting server")
 	r := gin.Default()
 
+	tmpls, err := render.NewRender()
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
 	webSckt := ws.NewWs()
+
+	r.GET("/", func(ctx *gin.Context) {
+		tmpls.ExecuteTemplate(ctx.Writer, "index", nil)
+	})
 
 	r.GET("/ws", webSckt.Handle)
 

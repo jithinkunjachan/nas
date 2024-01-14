@@ -5,6 +5,16 @@
       cmds:
         - GOOS=linux go build -o main
         - chmod +x main
+    push:
+      dir: backend/cmd/api
+      cmds:
+        - go build -o api .
+        - scp api jupiter@192.168.50.103:/home/jupiter
+        - scp -r public jupiter@192.168.50.103:/home/jupiter
+      env: 
+        GOOS: linux
+        GOARCH: amd64
+
     run-api:
       deps:
         - build-api
@@ -19,7 +29,7 @@
       dir: backend/cmd/frontend
       cmds:
         - GOOS=linux go build -o main
-        - chmod +x main
+        # - chmod +x main
     run-frontend:
       deps:
         - build-frontend

@@ -1,3 +1,28 @@
+
+Install mergerfs and snapraid
+```
+mkdir nas
+cd nas
+sudo apt-get -y install gcc
+sudo apt-get -y install make
+sudo mkdir /var/lib/snapraid
+sudo chmod a+w /var/lib/snapraid
+cd /var/lib/snapraid
+wget -O snapraid.tar.gz https://github.com/amadvance/snapraid/releases/download/v12.2/snapraid-12.2.tar.gz
+tar -xzf snapraid.tar.gz
+cd snapraid
+./configure
+make
+make check
+sudo make install
+cd .. & cd .. && rm /var/lib/snapraid/*.tar.gz
+cd ~/nas
+
+wget -O mergerfs.deb https://github.com/trapexit/mergerfs/releases/download/2.36.0/mergerfs_2.36.0.ubuntu-kinetic_amd64.deb
+sudo dpkg -i mergerfs.deb
+rm mergerfs.deb
+```
+
 Steps to create snapraid and mergerfs
 1. sudo gdisk /dev/sda 
 use the following entires to proceed o n w

@@ -21,6 +21,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+      # Checkout the repository code and get packages.
+      - name: Setup Checkout 
+        uses: actions/checkout@v3
 
       # Set up Flutter.
       - name: Setup Flutter Action
@@ -33,9 +36,6 @@ jobs:
       - name: Setup Golang Action
         uses: actions/setup-go@v5.0.0 
 
-      # Checkout the repository code and get packages.
-      - name: Setup Checkout 
-        uses: actions/checkout@v3
       - run: flutter pub get
 
       - name: Build Binaries

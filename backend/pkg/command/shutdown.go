@@ -5,13 +5,13 @@ import (
 	"github.com/jithinkunjachan/nasserver/backend/pkg/ws"
 )
 
-type SnapRaid struct {
+type ShutDown struct {
 	Ws   *ws.WS
 	Cmd  string
 	Args []string
 }
 
-func (me *SnapRaid) Command() executor.Command {
+func (me *ShutDown) Command() executor.Command {
 	return executor.Command{
 		Cmd:  me.Cmd,
 		Args: me.Args,
@@ -19,4 +19,4 @@ func (me *SnapRaid) Command() executor.Command {
 	}
 }
 
-var _ executor.Builder = &SnapRaid{}
+var _ executor.Builder = &ShutDown{}

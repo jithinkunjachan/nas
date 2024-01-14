@@ -25,13 +25,28 @@ func main() {
 		log.Fatalf("%v", err)
 	}
 
-	webSckt := ws.NewWs()
+	webSckt := ws.NewWs(tmpls)
 
 	r.GET("/", func(ctx *gin.Context) {
 		tmpls.ExecuteTemplate(ctx.Writer, "index", nil)
 	})
 
 	r.GET("/ws", webSckt.Handle)
+
+	r.GET("/shutdown", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		shutdown := &command.ShutDown{
+			Ws:   webSckt,
+			Cmd:  "sudo",
+			Args: []string{"-S", "--", "shutdown", "now"},
+		}
+		executor.Exec(shutdown)
+	})
 
 	r.GET("/lsblk", func(ctx *gin.Context) {
 		err := Busy(true)
@@ -159,6 +174,21 @@ func main() {
 			Ws:   webSckt,
 			Cmd:  "snapraid",
 			Args: []string{"check"},
+		}
+		executor.Exec(snpRaid)
+	})
+
+	r.GET("/snapraid/touch", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		snpRaid := &command.SnapRaid{
+			Ws:   webSckt,
+			Cmd:  "snapraid",
+			Args: []string{"touch"},
 		}
 		executor.Exec(snpRaid)
 	})

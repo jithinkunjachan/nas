@@ -1,0 +1,11 @@
+{{define "websocket-msg"}}
+<div hx-swap-oob="beforeend:#notifications">
+    <p>{{.Message}}</p>
+</div>
+{{end}}
+
+{{define "websocket-msg-clear"}}
+<div id="notifications" class="mx-auto py-8 pr-8 max-h-300 overflow-y-scroll ">
+    <p></p>
+</div>
+{{end}}

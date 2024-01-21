@@ -65,7 +65,7 @@ func (me *WS) BroadcastJSON(t MsgType, msg string) {
 		var buf bytes.Buffer
 		tmplName := "websocket-msg"
 		if t == Clear {
-			tmplName = "websocket-msg-clear"
+			tmplName = "websocket-msg-init"
 		}
 		err := me.tmpls.ExecuteTemplate(&buf, tmplName, render.WebsocketMsg{Message: msg})
 		if err != nil {

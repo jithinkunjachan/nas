@@ -12,22 +12,47 @@
 
 </head>
 
-<body class="bg-gray-200">
+<body class="bg-gray-500" hx-get="/disk" hx-trigger="load delay:0.5s" hx-target="#page">
     <div class="flex">
         <!-- sidebar -->
         <div id="sidebar" class="bg-black text-white font-bold h-screen p-4 ">
-            <div class="flex flex-rowmt-4 items-center">
+            <div class="flex flex-row mt-4 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                     stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
+                <div id='spinner' role="status" class="htmx-indicator p-3 fixed ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse30" fill="freeze" attributeName="r"
+                                begin="0;svgSpinnersPulse32.begin+0.4s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="0;svgSpinnersPulse32.begin+0.4s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse31" fill="freeze" attributeName="r"
+                                begin="svgSpinnersPulse30.begin+0.4s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="svgSpinnersPulse30.begin+0.4s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse32" fill="freeze" attributeName="r"
+                                begin="svgSpinnersPulse30.begin+0.8s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="svgSpinnersPulse30.begin+0.8s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                    </svg>
+                </div>
                 <div class="font-extrabold pl-1">sNapIt</div>
             </div>
 
             <ol class="mt-10">
-                <li class="hover:bg-gray-800 rounded p-2 my-2">
-                    <a class="flex flex-row" href="">
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/disk" hx-target="#page">
+                    <a class="flex flex-row">
                         <svg class="pr-2 w-8" fill="#ffffff" version="1.1" id="Capa_1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             viewBox="0 0 492.078 492.077" xml:space="preserve" stroke="#ffffff">
@@ -44,8 +69,8 @@
                         <div>DISK</div>
                     </a>
                 </li>
-                <li class="hover:bg-gray-800 rounded p-2 my-2">
-                    <a class="flex flex-row" href="">
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/snapraid" hx-target="#page">
+                    <a class="flex flex-row">
                         <svg class="pr-2  w-8" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
                             fill="#ffffff" stroke="#ffffff">
@@ -71,8 +96,8 @@
                         <div>SNAPRAID</div>
                     </a>
                 </li>
-                <li class="hover:bg-gray-800 rounded p-2 my-2">
-                    <a class="flex flex-row" href="">
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/system" hx-target="#page">
+                    <a class="flex flex-row">
                         <svg class="pr-2  w-8" viewBox="0 0 1024 1024" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -93,75 +118,11 @@
         </div>
 
         <!-- content -->
-        <div class="flex-1">
-            <button hx-get="/shutdown" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                shutdown
-            </button>
-            <button hx-get="/lsblk" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                lsblk
-            </button>
-            <button hx-get="/blkid" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                blkid
-            </button>
-            <button hx-get="/snapraid/sync" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                sync
-            </button>
-            <button hx-get="/snapraid/status" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                status
-            </button>
-            <button hx-get="/snapraid/diff" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                diff
-            </button>
-            <button hx-get="/snapraid/scrub" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                scrub
-            </button>
-            <button hx-get="/snapraid/list" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                list
-            </button>
-            <button hx-get="/snapraid/dup" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                dup
-            </button>
-            <button hx-get="/snapraid/check" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                check
-            </button>
-            <button hx-get="/snapraid/smart" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                smart
-            </button>
-            <button hx-get="/snapraid/status" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                status
-            </button>
-            <button hx-get="/snapraid/touch" hx-swap="none" hx-indicator="#spinner"
-                class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                touch
-            </button>
-            <div id='spinner' role="status" class="htmx-indicator">
-                <svg aria-hidden="true"
-                    class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-500"
-                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor" />
-                    <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill" />
-                </svg>
-                <span class="sr-only">Loading...</span>
-            </div>
-            <div hx-ext="ws" ws-connect="/ws" hx-target="notifications">
-                <div id="notifications" class="mx-auto py-8 pr-8 max-h-fit overflow-y-scroll">
-                </div>
+        <div class="flex flex-1 flex-col border-solid border-2 border-black ml-2 p-2">
+            <!-- page -->
+            <div id="page"></div>
+            <div class="flex-1" hx-ext="ws" ws-connect="/ws" hx-target="notifications" hx-swap-oob="true">
+                {{template "websocket-msg-init"}}
             </div>
         </div>
     </div>

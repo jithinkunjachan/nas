@@ -31,6 +31,36 @@ func main() {
 		tmpls.ExecuteTemplate(ctx.Writer, "index", nil)
 	})
 
+	r.GET("/disk", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		tmpls.ExecuteTemplate(ctx.Writer, "disk", nil)
+	})
+
+	r.GET("/snapraid", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		tmpls.ExecuteTemplate(ctx.Writer, "snapraid", nil)
+	})
+
+	r.GET("/system", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		tmpls.ExecuteTemplate(ctx.Writer, "system", nil)
+	})
+
 	r.GET("/ws", webSckt.Handle)
 
 	r.GET("/shutdown", func(ctx *gin.Context) {

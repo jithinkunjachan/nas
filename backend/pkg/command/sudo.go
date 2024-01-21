@@ -5,13 +5,13 @@ import (
 	"github.com/jithinkunjachan/nasserver/backend/pkg/ws"
 )
 
-type ShutDown struct {
+type Sudo struct {
 	Ws   *ws.WS
 	Cmd  string
 	Args []string
 }
 
-func (me *ShutDown) Command() executor.Command {
+func (me *Sudo) Command() executor.Command {
 	return executor.Command{
 		Cmd:  me.Cmd,
 		Args: me.Args,
@@ -19,4 +19,4 @@ func (me *ShutDown) Command() executor.Command {
 	}
 }
 
-var _ executor.Builder = &ShutDown{}
+var _ executor.Builder = &Sudo{}

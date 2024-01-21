@@ -70,10 +70,54 @@ func main() {
 			return
 		}
 		defer Busy(false)
-		shutdown := &command.ShutDown{
+		shutdown := &command.Sudo{
 			Ws:   webSckt,
 			Cmd:  "sudo",
 			Args: []string{"-S", "--", "shutdown", "now"},
+		}
+		executor.Exec(shutdown)
+	})
+
+	r.GET("/reboot", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		shutdown := &command.Sudo{
+			Ws:   webSckt,
+			Cmd:  "sudo",
+			Args: []string{"-S", "--", "reboot"},
+		}
+		executor.Exec(shutdown)
+	})
+
+	r.GET("/update", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		shutdown := &command.Sudo{
+			Ws:   webSckt,
+			Cmd:  "sudo",
+			Args: []string{"-S", "--", "apt", "update"},
+		}
+		executor.Exec(shutdown)
+	})
+	r.GET("/upgrade", func(ctx *gin.Context) {
+		err := Busy(true)
+		if err != nil {
+			ctx.AbortWithStatus(http.StatusLocked)
+			return
+		}
+		defer Busy(false)
+		shutdown := &command.Sudo{
+			Ws:   webSckt,
+			Cmd:  "sudo",
+			Args: []string{"-S", "--", "apt", "-y", "upgrade"},
 		}
 		executor.Exec(shutdown)
 	})

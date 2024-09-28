@@ -16,7 +16,7 @@ jobs:
       contents: write
     defaults:
       run:
-        working-directory: ./frontend  
+        working-directory: ./backend  
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -25,25 +25,15 @@ jobs:
       - name: Setup Checkout 
         uses: actions/checkout@v3
 
-      # Set up Flutter.
-      - name: Setup Flutter Action
-        uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter doctor -v
-
       # setup go
       - name: Setup Golang Action
         uses: actions/setup-go@v5.0.0 
 
-      - run: flutter pub get
 
       - name: Build Binaries
         run: |   
-         flutter build apk --split-per-abi --release --no-tree-shake-icons
-         cd ../backend/cmd/api
-         GOOS=linux GOARCH=amd64 go build -o server-linux-amd64 .
-         mv server-linux-amd64 ../../../frontend/build/app/outputs/flutter-apk/
+         cd cmd/api
+         GOOS=linux GOARCH=amd64 go build -o api .
 
       - name: Build Binaries BUNDLE
         run: flutter build appbundle
@@ -51,10 +41,10 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
-          artifacts: "frontend/build/app/outputs/flutter-apk/*"
+          artifacts: "backend/cmd/api/*"
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: release-apk
-          path: frontend/build/app/outputs/flutter-apk/
+          path: backend/cmd/api/

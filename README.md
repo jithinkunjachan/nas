@@ -78,6 +78,31 @@ autosave 100
 
 ```
 
+5. Install smarttools
+``` sudo apt-get install smartmontools```
+
 ### Server Installation
 ```crontab -e @reboot /home/jupiter/api```
 
+### Installing SAMBA
+```sudo apt update```
+
+```sudo apt install samba```
+
+```sudo nano /etc/samba/smb.conf```
+
+
+At the bottom of the file, add the following lines:
+```
+[rinyjithin]
+    comment = Samba on Ubuntu
+    path = /mnt/pool
+    read only = no
+    browsable = yes
+```
+
+``` sudo service smbd restart```
+
+```sudo ufw allow samba```
+
+```sudo smbpasswd -a rj```

@@ -7,7 +7,7 @@ sudo apt-get -y install make
 sudo mkdir /var/lib/snapraid
 sudo chmod a+w /var/lib/snapraid
 cd /var/lib/snapraid
-wget -O snapraid.tar.gz https://github.com/amadvance/snapraid/releases/download/v12.2/snapraid-12.2.tar.gz
+wget -O snapraid.tar.gz https://github.com/amadvance/snapraid/releases/download/v12.3/snapraid-12.3.tar.gz
 tar -xzf snapraid.tar.gz
 cd snapraid
 ./configure

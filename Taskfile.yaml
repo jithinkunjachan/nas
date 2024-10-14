@@ -1,0 +1,51 @@
+  version: 3
+  tasks:
+    build-api:
+      dir: backend/cmd/api
+      cmds:
+        - GOOS=linux go build -o main
+        - chmod +x main
+    push:
+      dir: backend/cmd/api
+      cmds:
+        - go build -o api .
+        - scp api jupiter@192.168.50.103:/home/jupiter
+        - scp -r public jupiter@192.168.50.103:/home/jupiter
+      env: 
+        GOOS: linux
+        GOARCH: amd64
+
+    run-api:
+      deps:
+        - build-api
+      dir: backend/cmd/api
+      cmds:
+        - docker stop api && docker rm api
+        - docker build . -t api
+#        - docker run -d -p 8081:8081 --name api -t api
+        - docker run -p 8081:8081 --name api -t api
+      ignore_error: true
+    build-frontend:
+      dir: backend/cmd/frontend
+      cmds:
+        - GOOS=linux go build -o main
+        # - chmod +x main
+    run-frontend:
+      deps:
+        - build-frontend
+      dir: backend/cmd/frontend
+      cmds:
+        - docker stop frontend && docker rm frontend
+        - cp -r ../../../frontend/build/web .
+        - docker build . -t frontend
+        - rm -rf web
+        - docker run -p 8080:8080  -v build/web /app/web --name frontend -t frontend
+      ignore_error: true
+    run:
+      deps:
+        - run-api
+        - run-frontend
+    default:
+      cmds:
+        - cmd: task --list-all
+          silent: true

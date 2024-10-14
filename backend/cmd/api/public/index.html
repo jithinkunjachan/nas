@@ -1,0 +1,133 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNAPRAID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+
+</head>
+
+<body class="bg-gray-500" hx-get="/disk" hx-trigger="load delay:0.5s" hx-target="#page">
+    <div class="flex">
+        <!-- sidebar -->
+        <div id="sidebar" class="bg-black text-white font-bold h-screen p-4 ">
+            <div class="flex flex-row mt-4 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                    stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <div id='spinner' role="status" class="htmx-indicator p-3 fixed ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse30" fill="freeze" attributeName="r"
+                                begin="0;svgSpinnersPulse32.begin+0.4s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="0;svgSpinnersPulse32.begin+0.4s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse31" fill="freeze" attributeName="r"
+                                begin="svgSpinnersPulse30.begin+0.4s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="svgSpinnersPulse30.begin+0.4s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                        <circle cx="12" cy="12" r="0" fill="red">
+                            <animate id="svgSpinnersPulse32" fill="freeze" attributeName="r"
+                                begin="svgSpinnersPulse30.begin+0.8s" calcMode="spline" dur="1.2s"
+                                keySplines=".52,.6,.25,.99" values="0;11" />
+                            <animate fill="freeze" attributeName="opacity" begin="svgSpinnersPulse30.begin+0.8s"
+                                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                        </circle>
+                    </svg>
+                </div>
+                <div class="font-extrabold pl-1">sNapIt</div>
+            </div>
+
+            <ol class="mt-10">
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/disk" hx-target="#page">
+                    <a class="flex flex-row">
+                        <svg class="pr-2 w-8" fill="#ffffff" version="1.1" id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 492.078 492.077" xml:space="preserve" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <path
+                                        d="M427.339,0H64.732c-5.187,0-9.404,4.206-9.404,9.404v473.269c0,5.19,4.211,9.404,9.404,9.404h362.607 c5.189,0,9.41-4.208,9.41-9.404V9.404C436.75,4.211,432.541,0,427.339,0z M334.564,194.379h47.913v14.091h-47.913V194.379z M334.564,237.589h47.913v14.092h-47.913V237.589z M334.564,283.149h47.913v14.091h-47.913V283.149z M285.978,109.601h14.091 v47.913h-14.091V109.601z M242.776,109.601h14.079v47.913h-14.079V109.601z M197.201,109.601h14.104v47.913h-14.104V109.601z M92.92,16.456c12.117,0,21.94,9.824,21.94,21.941s-9.824,21.94-21.94,21.94c-12.117,0-21.941-9.823-21.941-21.94 S80.803,16.456,92.92,16.456z M92.92,474.055c-12.117,0-21.941-9.823-21.941-21.94c0-12.116,9.824-21.94,21.941-21.94 c12.117,0,21.94,9.824,21.94,21.94C114.861,464.231,105.037,474.055,92.92,474.055z M157.507,297.24H109.6v-14.091h47.907V297.24z M157.507,251.681H109.6v-14.092h47.907V251.681z M157.507,208.476H109.6v-14.091h47.907V208.476z M199.905,487.295h-15.888v-28.75 h15.888V487.295z M234.708,487.295h-15.888v-28.75h15.888V487.295z M269.51,487.295h-15.888v-28.75h15.888V487.295z M304.691,487.295h-15.888v-28.75h15.888V487.295z M339.494,487.295h-15.889v-28.75h15.889V487.295z M358.963,447.303H167.549 v-12.104h179.31v-72.833l-32.173-41.398c-0.703,0.13-1.425,0.213-2.169,0.213H184.762c-6.221,0-11.275-5.036-11.275-11.267V182.158 c0-6.215,5.054-11.269,11.275-11.269h127.744c6.229,0,11.277,5.054,11.277,11.269v127.755c0,0.893-0.13,1.762-0.337,2.601 l35.506,45.702v89.087H358.963z M197.201,382.474v-47.912h14.104v47.912H197.201z M242.776,382.474v-47.912h14.079v47.912H242.776z M285.978,382.474v-47.912h14.091v47.912H285.978z M403.211,474.055c-12.117,0-21.94-9.823-21.94-21.94 c0-12.116,9.823-21.94,21.94-21.94s21.941,9.824,21.941,21.94C425.153,464.231,415.329,474.055,403.211,474.055z M403.211,60.337 c-12.117,0-21.94-9.823-21.94-21.94s9.823-21.941,21.94-21.941s21.941,9.824,21.941,21.941S415.329,60.337,403.211,60.337z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        <div>DISK</div>
+                    </a>
+                </li>
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/snapraid" hx-target="#page">
+                    <a class="flex flex-row">
+                        <svg class="pr-2  w-8" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
+                            fill="#ffffff" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <style type="text/css">
+                                    .st0 {
+                                        fill: #ffffff;
+                                    }
+                                </style>
+                                <g>
+                                    <rect x="293.883" y="35.341" class="st0" width="85.829" height="85.844"></rect>
+                                    <polygon class="st0"
+                                        points="367.092,277.21 220.659,277.21 220.659,130.778 266.101,130.778 266.101,82.816 8.583,82.816 8.583,512 437.774,512 437.774,254.482 367.092,254.482 ">
+                                    </polygon>
+                                    <rect x="250.954" y="161.08" class="st0" width="85.828" height="85.829"></rect>
+                                    <rect x="417.588" class="st0" width="85.829" height="85.844"></rect>
+                                    <rect x="377.185" y="138.86" class="st0" width="85.844" height="85.836"></rect>
+                                </g>
+                            </g>
+                        </svg>
+                        <div>SNAPRAID</div>
+                    </a>
+                </li>
+                <li class="hover:bg-gray-800 rounded p-2 my-2 cursor-pointer" hx-get="/system" hx-target="#page">
+                    <a class="flex flex-row">
+                        <svg class="pr-2  w-8" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M981.333333 469.333333a21.333333 21.333333 0 0 0-21.333333 21.333334v85.333333a85.333333 85.333333 0 0 1-85.333333 85.333333H149.333333a85.333333 85.333333 0 0 1-85.333333-85.333333V149.333333a85.333333 85.333333 0 0 1 85.333333-85.333333h725.333334a85.333333 85.333333 0 0 1 85.333333 85.333333 21.333333 21.333333 0 0 0 42.666667 0 128 128 0 0 0-128-128H149.333333a128 128 0 0 0-128 128v426.666667a128 128 0 0 0 128 128h725.333334a128 128 0 0 0 128-128v-85.333333a21.333333 21.333333 0 0 0-21.333334-21.333334z"
+                                    fill="#ffffff"></path>
+                                <path
+                                    d="M981.333333 298.666667a21.333333 21.333333 0 0 0-21.333333 21.333333v85.333333a21.333333 21.333333 0 0 0 42.666667 0v-85.333333a21.333333 21.333333 0 0 0-21.333334-21.333333zM966.186667 219.52a21.333333 21.333333 0 0 0 0 30.293333 21.333333 21.333333 0 0 0 30.293333 0l2.56-3.413333a11.946667 11.946667 0 0 0 1.92-3.626667 13.226667 13.226667 0 0 0 1.706667-3.84 26.88 26.88 0 0 0 0-4.266666 21.333333 21.333333 0 0 0-36.48-15.146667zM896 960H128a21.333333 21.333333 0 0 0 0 42.666667h768a21.333333 21.333333 0 0 0 0-42.666667zM682.666667 853.333333a21.333333 21.333333 0 0 0 0-42.666666H341.333333a21.333333 21.333333 0 0 0 0 42.666666zM704 384a21.333333 21.333333 0 0 0 0-42.666667h-44.373333a149.333333 149.333333 0 0 0-28.16-67.84l31.36-31.36a21.333333 21.333333 0 1 0-30.08-30.08l-31.573334 31.146667A149.333333 149.333333 0 0 0 533.333333 215.04V170.666667a21.333333 21.333333 0 0 0-42.666666 0v44.373333a149.333333 149.333333 0 0 0-67.84 28.16l-31.573334-31.36a21.333333 21.333333 0 0 0-30.08 30.08l31.36 31.36A149.333333 149.333333 0 0 0 364.373333 341.333333H320a21.333333 21.333333 0 0 0 0 42.666667h44.373333a149.333333 149.333333 0 0 0 28.16 67.84l-31.36 31.36a21.333333 21.333333 0 1 0 30.08 30.08l31.36-31.36A149.333333 149.333333 0 0 0 490.666667 510.293333V554.666667a21.333333 21.333333 0 0 0 42.666666 0v-44.373334a149.333333 149.333333 0 0 0 67.84-28.16l31.36 31.36a21.333333 21.333333 0 0 0 30.08-30.08l-31.146666-31.573333A149.333333 149.333333 0 0 0 659.626667 384z m-192 85.333333a106.666667 106.666667 0 1 1 106.666667-106.666666 106.666667 106.666667 0 0 1-106.666667 106.666666z"
+                                    fill="#ffffff"></path>
+                            </g>
+                        </svg>
+                        <div>SYSTEM</div>
+                    </a>
+                </li>
+            </ol>
+        </div>
+
+        <!-- content -->
+        <div class="flex flex-1 flex-col border-solid border-2 border-black ml-2 p-2">
+            <!-- page -->
+            <div id="page"></div>
+            <div class="flex-1" hx-ext="ws" ws-connect="/ws" hx-target="notifications" hx-swap-oob="true">
+                {{template "websocket-msg-init"}}
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+{{end}}

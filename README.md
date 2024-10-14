@@ -84,6 +84,8 @@ autosave 100
 ### Server Installation
 ```crontab -e @reboot /home/jupiter/api```
 
+Please add also following environment `USER_PASSWORD` with sudo password
+
 ### Installing SAMBA
 ```sudo apt update```
 
